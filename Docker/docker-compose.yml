@@ -1,0 +1,20 @@
+version: '3.3'
+
+services:
+  seizuredetection:
+    image: seizuredetection:1.0.0
+    environment:
+      - METRIC_ALPHA=${METRIC_ALPHA}
+      - METRIC_SCORE=${METRIC_SCORE}
+      - INFLUX_HOST=localhost
+      - INFLUXDB_USER=user
+      - INFLUXDB_PASS=pass
+      - EXP_FILE=/opt/code/source/experiments.json
+      - MEASUREMENT_FILE=/opt/code/source/measurements.json
+      - RESULT_FILE=/opt/code/source/results/result.csv
+    volumes:
+      - ./experiments.json:/opt/code/source/experiments.json
+      - ./measurements.json:/opt/code/source/measurements.json
+      - ./results:/opt/code/source/results
+      - ../../cmuxstream-core:/opt/code/cmuxstream-core
+      - ../../TSB-UAD:/opt/code/TSB-UAD
