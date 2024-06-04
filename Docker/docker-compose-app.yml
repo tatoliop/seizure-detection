@@ -1,0 +1,10 @@
+version: '3.3'
+
+services:
+
+  seizure_detection_experiments:
+    image: seizure_detection:1.0.0
+    env_file:
+      - .env
+    volumes:
+      - ${DATASET_HOST_PATH}:${DATASET_PATH}:ro

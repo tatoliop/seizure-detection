@@ -6,6 +6,7 @@ results/
 
 #Pattented algos
 norma.py
+series2graph.py
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

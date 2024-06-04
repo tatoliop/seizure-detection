@@ -1,0 +1,53 @@
+version: "3.2"
+
+networks:
+  eeg-net:
+    name: eeg-net
+  
+volumes:
+  eeg-grafana-data:
+    name: eeg-grafana-data
+  eeg-influxdb-data:
+    name: eeg-influxdb-data
+  eeg-mlflow-data:
+    name: eeg-mlflow-data
+
+services:
+
+  mlflow:
+    image: ghcr.io/mlflow/mlflow:v2.11.0
+    command: "mlflow server --port 8080 --host 0.0.0.0"
+    volumes:
+     - eeg-mlflow-data:/mlruns
+    networks:
+      - eeg-net
+    ports:
+      - "3001:8080"
+    restart: always
+
+  influxdb:
+    image: influxdb:1.8-alpine
+    env_file:
+      - .env
+    volumes:
+     - eeg-influxdb-data:/var/lib/influxdb2
+    networks:
+      - eeg-net
+    ports:
+      - "3002:8086"
+    restart: always
+
+  grafana:
+    image: grafana/grafana:10.1.5
+    env_file:
+      - .env
+    #user: "0"
+    volumes:
+     - eeg-grafana-data:/var/lib/grafana
+    networks:
+      - eeg-net
+    ports:
+      - "3003:3000"
+    restart: always
+    
+    
